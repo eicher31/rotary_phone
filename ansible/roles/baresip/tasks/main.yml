@@ -1,0 +1,52 @@
+---
+- name: Install baresip
+  ansible.builtin.apt:
+    name:
+      - baresip
+      - baresip-mod-ctrl-tcp
+    state: present
+
+- name: Create baresip config directory
+  ansible.builtin.file:
+    path: /root/.baresip
+    state: directory
+    mode: "0700"
+
+- name: Deploy baresip config
+  ansible.builtin.template:
+    src: config.j2
+    dest: /root/.baresip/config
+    mode: "0600"
+  notify: restart baresip
+
+- name: Deploy baresip SIP account
+  ansible.builtin.template:
+    src: accounts.j2
+    dest: /root/.baresip/accounts
+    mode: "0600"
+  notify: restart baresip
+
+- name: Deploy baresip systemd unit
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/baresip.service
+    content: |
+      [Unit]
+      Description=baresip SIP user agent
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      ExecStart=/usr/bin/baresip
+      Restart=on-failure
+      RestartSec=2
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: "0644"
+
+- name: Enable and start baresip
+  ansible.builtin.systemd:
+    name: baresip
+    enabled: true
+    state: started
+    daemon_reload: true

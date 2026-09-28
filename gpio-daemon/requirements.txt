@@ -1,0 +1,4 @@
+gpiozero>=2.0
+lgpio>=0.2
+paho-mqtt>=1.6,<2
+PyYAML>=6.0

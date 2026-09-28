@@ -1,0 +1,5 @@
+---
+- name: restart gpio-daemon
+  ansible.builtin.systemd:
+    name: rotary-phone-daemon
+    state: restarted

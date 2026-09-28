@@ -1,0 +1,16 @@
+# Config baresip minimale pour un client SIP headless (déployée par Ansible).
+#
+# NOTE: à vérifier contre la version de baresip réellement installée
+# (`baresip -m ctrl_tcp -h`) — les noms/chemins de modules varient un peu
+# selon les versions/distributions. Voir docs/README.md.
+
+sip_listen              0.0.0.0:5060
+
+audio_player             alsa,default
+audio_source              alsa,default
+audio_alert              alsa,default
+
+module                  ctrl_tcp.so
+ctrl_tcp_listen          127.0.0.1:{{ baresip_ctrl_port }}
+
+module_app               account.so

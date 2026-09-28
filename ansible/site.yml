@@ -1,0 +1,9 @@
+---
+- name: Configure rotary phone Raspberry Pi units
+  hosts: rotary_phones
+  become: true
+  roles:
+    - base
+    - audio
+    - baresip
+    - gpio-daemon

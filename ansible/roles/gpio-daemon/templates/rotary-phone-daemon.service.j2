@@ -1,0 +1,13 @@
+[Unit]
+Description=Rotary phone GPIO/SIP/MQTT daemon
+After=network-online.target baresip.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart={{ gpio_daemon_repo_path }}/.venv/bin/python -m gpio_daemon --config /etc/rotary-phone/config.yaml
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

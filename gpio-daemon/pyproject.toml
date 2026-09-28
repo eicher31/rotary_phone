@@ -1,0 +1,24 @@
+[project]
+name = "rotary-phone-gpio-daemon"
+version = "0.1.0"
+description = "GPIO/SIP/MQTT daemon bridging a converted rotary phone (hook switch, dial pulses, bell striker) to baresip and MQTT."
+requires-python = ">=3.10"
+dependencies = [
+    "gpiozero>=2.0",
+    "lgpio>=0.2",
+    "paho-mqtt>=1.6,<2",
+    "PyYAML>=6.0",
+]
+
+[project.scripts]
+rotary-phone-daemon = "gpio_daemon.service:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["gpio_daemon*"]

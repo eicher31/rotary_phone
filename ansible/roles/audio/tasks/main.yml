@@ -1,0 +1,17 @@
+---
+# NOTE: l'index de carte ("card 1") est à confirmer sur le matériel réel
+# avec `aplay -l` une fois la carte son USB branchée — il dépend de si
+# l'audio embarqué du Pi est activé ou non dans /boot/firmware/config.txt.
+- name: Force la carte son USB comme périphérique ALSA par défaut
+  ansible.builtin.copy:
+    dest: /etc/asound.conf
+    content: |
+      pcm.!default {
+          type hw
+          card 1
+      }
+      ctl.!default {
+          type hw
+          card 1
+      }
+    mode: "0644"

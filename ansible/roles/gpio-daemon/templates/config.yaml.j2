@@ -1,0 +1,25 @@
+phone_id: {{ phone_id }}
+sip_extension: "{{ sip_extension }}"
+
+mqtt_host: {{ mqtt_host }}
+mqtt_port: {{ mqtt_port }}
+
+baresip_ctrl_host: 127.0.0.1
+baresip_ctrl_port: {{ baresip_ctrl_port }}
+
+dial_digit_count: 3
+hook_debounce_seconds: 0.05
+pulse_debounce_seconds: 0.008
+inter_digit_timeout_seconds: 0.3
+
+pins:
+  hook: {{ gpio_hook }}
+  hook_active_low: true
+
+  dial_pulse: {{ gpio_dial_pulse }}
+  dial_pulse_active_low: true
+
+  dial_off_normal: {{ gpio_dial_off_normal }}
+  dial_off_normal_active_low: true
+
+  ringer_output: {{ gpio_ringer_output }}

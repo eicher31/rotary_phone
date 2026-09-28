@@ -1,0 +1,37 @@
+# Copie ce fichier vers /etc/rotary-phone/config.yaml sur chaque poste
+# (ou laisse Ansible le faire via ansible/roles/gpio-daemon) et adapte
+# les valeurs à ce poste précis.
+
+phone_id: phone01
+sip_extension: "100"
+
+mqtt_host: 192.168.1.10
+mqtt_port: 1883
+
+baresip_ctrl_host: 127.0.0.1
+baresip_ctrl_port: 4444
+
+# Nombre de chiffres composés avant de lancer automatiquement l'appel SIP
+# correspondant (3 pour matcher des extensions 100-105). Chaque chiffre
+# est de toute façon publié sur MQTT dès qu'il est composé, indépendamment
+# de cette valeur — voir docs/software-architecture.md.
+dial_digit_count: 3
+
+hook_debounce_seconds: 0.05
+pulse_debounce_seconds: 0.008
+inter_digit_timeout_seconds: 0.3
+
+pins:
+  hook: 17
+  hook_active_low: true
+
+  dial_pulse: 27
+  dial_pulse_active_low: true
+
+  # Laisser à `null` si le cadran n'a que 2 fils (pas de contact "hors
+  # repos" séparé) : le daemon utilisera alors un décodage par
+  # temporisation entre impulsions à la place. Voir docs/hardware.md.
+  dial_off_normal: 22
+  dial_off_normal_active_low: true
+
+  ringer_output: 23

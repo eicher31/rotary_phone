@@ -1,0 +1,38 @@
+---
+- name: Copy gpio-daemon source
+  ansible.builtin.copy:
+    src: ../../../gpio-daemon/
+    dest: "{{ gpio_daemon_repo_path }}"
+    mode: preserve
+
+- name: Install gpio-daemon into a virtualenv
+  ansible.builtin.pip:
+    requirements: "{{ gpio_daemon_repo_path }}/requirements.txt"
+    virtualenv: "{{ gpio_daemon_repo_path }}/.venv"
+    virtualenv_command: python3 -m venv
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: /etc/rotary-phone
+    state: directory
+    mode: "0755"
+
+- name: Deploy per-phone daemon config
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rotary-phone/config.yaml
+    mode: "0644"
+  notify: restart gpio-daemon
+
+- name: Deploy systemd unit
+  ansible.builtin.template:
+    src: rotary-phone-daemon.service.j2
+    dest: /etc/systemd/system/rotary-phone-daemon.service
+    mode: "0644"
+
+- name: Enable and start gpio-daemon
+  ansible.builtin.systemd:
+    name: rotary-phone-daemon
+    enabled: true
+    state: started
+    daemon_reload: true
