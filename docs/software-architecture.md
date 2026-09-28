@@ -2,7 +2,7 @@
 
 ```mermaid
 flowchart TB
-    subgraph Poste1["Poste 1..6 — Raspberry Pi Zero 2 W"]
+    subgraph Poste1["Poste 1..6 — Raspberry Pi Zero W"]
         GPIO["gpio_daemon\n(cadran, crochet, sonnerie)"]
         Baresip["baresip\n(client SIP)"]
         GPIO <--> |ctrl_tcp\nTCP local| Baresip
@@ -21,9 +21,9 @@ flowchart TB
 
 ## Pourquoi ces choix
 
-- **baresip** plutôt que Linphone : client SIP très léger (adapté au Pi
-  Zero 2 W), scriptable via son module `ctrl_tcp` — pas d'interface
-  graphique à faire tourner en headless.
+- **baresip** plutôt que Linphone : client SIP très léger (adapté au
+  cœur unique ARM11 du Pi Zero W), scriptable via son module `ctrl_tcp`
+  — pas d'interface graphique à faire tourner en headless.
 - **Asterisk central** plutôt que du SIP pair-à-pair direct entre postes :
   donne un vrai plan de numérotation (ex. `_10[0-5]` pour appeler un
   poste par son extension), la possibilité de sonner plusieurs postes à
@@ -64,7 +64,7 @@ de numérotation change.
 
 ## Réseau : Wi-Fi ou Ethernet ?
 
-Le Pi Zero 2 W a le Wi-Fi intégré, ce qui simplifie beaucoup
+Le Pi Zero W a le Wi-Fi intégré (2,4 GHz), ce qui simplifie beaucoup
 l'installation (pas de câble à faire courir jusqu'à chaque téléphone).
 C'est suffisant dans la plupart des cas. Si vous constatez de la gigue
 audio ou des coupures pendant un événement (plusieurs postes actifs en

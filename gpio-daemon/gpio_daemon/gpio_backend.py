@@ -34,7 +34,10 @@ class GPIOBackend(Protocol):
 
 class GpiozeroBackend:
     """Real hardware backend, built on gpiozero (lgpio under the hood on
-    a Raspberry Pi Zero 2 W / recent Raspberry Pi OS)."""
+    a Raspberry Pi Zero W / recent Raspberry Pi OS). The 40-pin GPIO
+    header and BCM pin numbering are identical across the Pi Zero
+    family, so this backend works unchanged whether the daemon runs on
+    a Zero W or a Zero 2 W."""
 
     def __init__(self) -> None:
         from gpiozero import DigitalInputDevice, DigitalOutputDevice  # local: only needed on a Pi

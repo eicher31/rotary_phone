@@ -10,9 +10,20 @@
 | Timbres mécaniques (les deux cloches) | **Conservés**, mais leurs bobines d'origine (~90 V AC / 25 Hz) sont débranchées | Trop dangereux/complexe à régénérer en toute sécurité pour 6 postes |
 | — | **Ajout** d'un petit moteur vibrant ou solénoïde qui vient frapper mécaniquement les timbres | Reproduit le vrai son des cloches sans haute tension |
 | Câblage interne (induction, batterie locale) | **Retiré** | Remplacé entièrement par le Raspberry Pi + électronique moderne |
-| — | **Ajout** Raspberry Pi Zero 2 W + carte son + ampli + alimentation | Cerveau du poste |
+| — | **Ajout** Raspberry Pi Zero W + carte son + ampli + alimentation | Cerveau du poste |
 
-## Brochage GPIO (Raspberry Pi Zero 2 W)
+> **Pourquoi le Zero W (original) plutôt que le Zero 2 W ?** Choix dicté
+> par la disponibilité (le Zero 2 W était en rupture au moment du projet).
+> Le Zero W a un seul cœur ARM11 (ARMv6) à 1 GHz au lieu d'un quad-cœur
+> Cortex-A53 — largement suffisant ici puisque chaque poste ne gère
+> qu'un seul appel SIP à la fois (pas de multi-appel/conférence en
+> local). La seule vraie différence pratique : le Zero W est **32-bit
+> uniquement** (ARMv6 ne supporte pas l'architecture 64-bit), donc il
+> faut flasher **Raspberry Pi OS Lite en version 32-bit** et non 64-bit
+> — voir `setup.md`. Le reste (brochage GPIO, code du daemon, config
+> baresip/Ansible) est identique aux deux cartes.
+
+## Brochage GPIO (Raspberry Pi Zero W)
 
 Numérotation **BCM**. À ajuster dans `gpio-daemon/config.example.yaml` et
 dans l'inventaire Ansible si vous câblez différemment.
@@ -47,7 +58,7 @@ flowchart LR
     end
 
     subgraph Électronique ajoutée
-        Pi["Raspberry Pi\nZero 2 W"]
+        Pi["Raspberry Pi\nZero W"]
         Snd["Carte son USB\n(ou HAT I2S)"]
         Amp["Ampli PAM8403"]
         Mos["MOSFET"]
@@ -64,7 +75,8 @@ flowchart LR
 
 ## Alimentation
 
-- Le Raspberry Pi Zero 2 W consomme peu (~1-1.5 W au repos, pics à ~2.5 W)
+- Le Raspberry Pi Zero W consomme peu (~0.5-1 W au repos, pics à ~1.5 W —
+  encore moins que le Zero 2 W, son unique cœur ARM11 étant plus sobre)
   mais demande une alimentation 5V stable — utilisez un vrai bloc
   micro-USB 5V/2.5A, pas un chargeur de téléphone bas de gamme (chutes de
   tension = redémarrages aléatoires).

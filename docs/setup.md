@@ -35,15 +35,18 @@ final via Ansible.
    ```
 6. (Optionnel) Installer Node-RED et importer `node-red/flows.json`.
 
-## 2. Chaque poste (Raspberry Pi Zero 2 W)
+## 2. Chaque poste (Raspberry Pi Zero W)
 
 ### 2.1 Image de base
 
-1. Flasher Raspberry Pi OS Lite (64-bit) sur la carte microSD avec
+1. Flasher **Raspberry Pi OS Lite (32-bit)** sur la carte microSD avec
    Raspberry Pi Imager, en activant SSH + Wi-Fi dans les options avancées
    (identifiants propres à chaque poste si vous n'utilisez pas encore
    Ansible pour ça).
-2. Démonter la carte microSD, l'insérer dans le Pi Zero 2 W, câbler le
+   ⚠️ Le Zero W (ARM11/ARMv6) ne supporte pas le 64-bit — bien choisir
+   l'image **32-bit** dans Raspberry Pi Imager (catégorie "Raspberry Pi
+   OS (other)"), sous peine de carte qui ne démarre pas du tout.
+2. Démonter la carte microSD, l'insérer dans le Pi Zero W, câbler le
    matériel selon `hardware.md`, démarrer.
 
 ### 2.2 Déploiement automatisé (Ansible, recommandé pour 6 postes)

@@ -7,7 +7,7 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 
 | Élément | Rôle | Prix indicatif |
 |---|---|---|
-| Raspberry Pi Zero 2 W | cerveau du poste (Wi-Fi/BT intégrés) | ~20 € |
+| Raspberry Pi Zero W | cerveau du poste (Wi-Fi intégré) — choisi pour sa disponibilité, voir `hardware.md` | ~15 € |
 | Carte microSD 16-32 Go (classe A1/A2) | OS | ~6 € |
 | Adaptateur son USB jack 3.5mm *ou* HAT I2S (ex. ReSpeaker 2-Mic) | interface audio | ~3-20 € |
 | Ampli classe D PAM8403 | pilote le haut-parleur d'écouteur | ~1.5 € |
@@ -19,11 +19,11 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 | Adaptateur USB-Ethernet (optionnel, recommandé si Wi-Fi saturé) | fiabilité audio/réseau | ~8 € |
 | Divers : fils, dominos/wago, entretoises, connecteurs Dupont, gaine thermo | câblage | ~5 € |
 
-**Total électronique par poste : ~45-65 €** (hors téléphone lui-même).
+**Total électronique par poste : ~55-80 €** (hors téléphone lui-même).
 
 ## Pour 6 postes
 
-- Électronique : **~270-390 €**
+- Électronique : **~330-480 €**
 - Téléphones à acquérir (l'utilisateur en possède déjà un) : brocante,
   Ricardo.ch, eBay — typiquement **15-40 CHF/pièce** en Suisse pour ce
   type de modèle PTT, donc **~75-200 CHF** pour les 4-5 restants.
@@ -39,7 +39,7 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 
 | Poste de dépense | Montant |
 |---|---|
-| Électronique (6 postes) | ~270-390 € |
+| Électronique (6 postes) | ~330-480 € |
 | Téléphones supplémentaires (4-5) | ~75-200 CHF |
 | Serveur central (si à acheter) | ~60-70 € |
-| **Total** | **~400-660 €/CHF** selon options retenues |
+| **Total** | **~465-750 €/CHF** selon options retenues |

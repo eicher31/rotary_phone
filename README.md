@@ -3,7 +3,7 @@
 Conversion de vieux téléphones muraux à cadran (mécaniques, ~années 1950-60,
 type PTT suisse à deux timbres) en postes **VoIP fonctionnels** doublés
 d'**accessoires de jeu** (escape game / jeu de piste), pilotés par un
-Raspberry Pi Zero 2 W par téléphone. Objectif : 5-6 unités identiques.
+Raspberry Pi Zero W par téléphone. Objectif : 5-6 unités identiques.
 
 ## Ce que fait chaque poste
 
