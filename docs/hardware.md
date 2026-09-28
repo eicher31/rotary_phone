@@ -23,6 +23,23 @@
 > — voir `setup.md`. Le reste (brochage GPIO, code du daemon, config
 > baresip/Ansible) est identique aux deux cartes.
 
+## Connectique USB : pas de port USB-A sur le Zero W !
+
+⚠️ Piège classique : le Pi Zero W n'a **aucun port USB-A**. Il a deux
+ports **micro-USB** : un marqué "PWR IN" (alimentation uniquement, rien
+ne s'y branche côté données) et un marqué "USB" (le seul port de
+données, en mode OTG). La carte son USB (et l'adaptateur USB-Ethernet
+optionnel) sont tous les deux en USB-A — il faut donc un intermédiaire :
+
+- **Un seul périphérique USB à brancher (juste la carte son, cas le plus
+  courant)** : un simple adaptateur/câble micro-USB OTG (USB-A femelle →
+  micro-USB mâle) suffit, ex. [InLine Adaptateur Micro-USB OTG](https://www.galaxus.ch/fr/s1/product/inline-adaptateur-micro-usb-otg-usb-20-cable-usb-13265450) (~CHF 6-10).
+- **Deux périphériques (carte son + adaptateur Ethernet)** : il faut un
+  **hub OTG micro-USB multi-ports**, pas un simple adaptateur — ex.
+  [InLine OTG Cardreader & 3-Port USB 2.0 Hub](https://www.galaxus.ch/fr/s1/product/inline-otg-cardreader-3-port-usb-20-hub-usb-20-speicherkartenlesegeraet-13274156).
+
+Ce point n'était pas dans le BOM initial — voir `bom.md`, corrigé.
+
 ## Brochage GPIO (Raspberry Pi Zero W)
 
 Numérotation **BCM**. À ajuster dans `gpio-daemon/config.example.yaml` et
