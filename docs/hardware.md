@@ -92,6 +92,26 @@ Tous les contacts mécaniques du téléphone (crochet, cadran) sont câblés
 en tout-ou-rien entre le GPIO et la masse (GND) ; le pull-up interne du
 Pi suffit, aucune résistance externe n'est nécessaire pour ces entrées.
 
+## Circuit de pilotage du solénoïde (frappeur de timbres)
+
+Un module relais a été envisagé un temps pour piloter le solénoïde
+depuis `GPIO23`, mais les modules relais courants (même "1 canal") sont
+nettement plus volumineux qu'un simple MOSFET — peu adapté à l'espace
+réduit dans le boîtier du téléphone. On reste donc sur un MOSFET
+discret, minuscule (boîtier TO-220), silencieux et increvable pour les
+cycles répétés de la cadence de sonnerie :
+
+| Composant | Référence | Rôle |
+|---|---|---|
+| MOSFET N logic-level | [Infineon IRLZ44NPBF, TO-220](https://www.distrelec.ch/fr/mosfet-kanal-55v-47a-to-220-infineon-irlz44npbf/p/30341412) — Distrelec réf. **30341412** | commuté par `GPIO23` (seuil de grille compatible 3.3V), fait passer le courant du solénoïde |
+| Diode de roue libre | [Diotec 1N4007, DO-41](https://www.distrelec.ch/fr/diode-de-redressement-1kv-1a-do-41-diotec-1n4007/p/11052628) — Distrelec réf. **11052628** | protège le MOSFET contre la surtension générée par le solénoïde à la coupure (indispensable avec une charge inductive) |
+| Résistance de grille/pull-down | ~220 Ω en série + ~10 kΩ entre grille et GND | limite le courant d'appel et évite que le MOSFET ne s'active de façon erratique au démarrage du Pi (GPIO flottant) — composant générique, pas de référence dédiée nécessaire |
+
+Câblage : `GPIO23` → résistance 220 Ω → grille du MOSFET (+ résistance
+10 kΩ grille→GND) ; drain du MOSFET → une borne du solénoïde ; l'autre
+borne du solénoïde → +5V ; source du MOSFET → GND. La diode 1N4007 se
+place en parallèle du solénoïde (cathode côté +5V, anode côté drain).
+
 ## Schéma de principe
 
 ```mermaid
