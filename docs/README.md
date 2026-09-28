@@ -22,6 +22,7 @@ lieu, voici précisément ce qui est vérifié et ce qui ne l'est pas :
 | Configuration Asterisk/PJSIP (`pbx/`) | ⚠️ Syntaxiquement correcte, non testée faute de serveur Asterisk disponible ici |
 | Playbook Ansible (`ansible/`) | ⚠️ Structure complète, non exécutée faute de Raspberry Pi disponible ici |
 | Dimensionnement électrique (micro électret, ampli, moteur/solénoïde de sonnerie) | ⚠️ Choix de composants raisonnables mais **à valider à la mesure** (impédance de l'écouteur d'origine, force nécessaire pour frapper les timbres, etc.) — voir `hardware.md` |
+| Carte audio DA7212 : point de câblage exact de l'entrée micro externe | ⚠️ Confirmé par le schéma constructeur qu'une entrée micro externe existe (distincte des 2 micros embarqués), mais l'emplacement physique exact sur le PCB reste à vérifier à réception de la carte — voir `hardware.md` |
 
 **Premier jalon recommandé avant de répliquer sur 6 postes** : monter un
 seul prototype complet, valider chaque point ⚠️ ci-dessus dessus, ajuster
