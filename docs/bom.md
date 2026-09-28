@@ -9,15 +9,15 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 |---|---|---|
 | Raspberry Pi Zero W | cerveau du poste (Wi-Fi intégré) — choisi pour sa disponibilité, voir `hardware.md` | ~15 € |
 | Carte microSD 16-32 Go (classe A1/A2) | OS | ~6 € |
-| Carte audio **Waveshare DA7212 Audio Board (A)** (HAT I2S) | interface audio recommandée — remplace carte son USB + ampli, se branche directement sur le connecteur 40 broches (pas besoin d'adaptateur OTG), entrée micro externe + ampli mono intégrés, voir `hardware.md` | ~22-25 € |
-| Capsule micro électret | câblée sur l'entrée micro externe de la carte DA7212, remplace le micro carbone d'origine | ~1 € |
-| Petit haut-parleur 8 Ω (si l'écouteur d'origine n'est pas réutilisable) | câblé sur la sortie ampli mono de la carte DA7212 | ~2 € |
+| Carte audio **IQaudio Codec Zero** (HAT I2S, officielle Raspberry Pi) | interface audio recommandée — remplace carte son USB + ampli, se branche directement sur le connecteur 40 broches (pas besoin d'adaptateur OTG), prise jack 3.5mm mono pour micro externe + ampli mono 8Ω intégrés, voir `hardware.md` | ~18-23 € |
+| Capsule micro électret | câblée sur la prise jack micro externe de la carte Codec Zero, remplace le micro carbone d'origine | ~1 € |
+| Petit haut-parleur 8 Ω (si l'écouteur d'origine n'est pas réutilisable) | câblé sur la sortie ampli mono de la carte Codec Zero | ~2 € |
 | Module MOSFET (ex. IRLZ44N + driver) | pilote le frappeur de timbres | ~2 € |
 | Petit moteur vibrant ou solénoïde 5V | frappe les timbres d'origine | ~3-6 € |
 | Alimentation 5V/2.5A micro-USB *ou* splitter PoE | alimentation | ~8-12 € |
 | Divers : fils, dominos/wago, entretoises, connecteurs Dupont, gaine thermo | câblage | ~5 € |
 
-**Total électronique par poste : ~64-74 €** (hors téléphone lui-même).
+**Total électronique par poste : ~60-72 €** (hors téléphone lui-même).
 
 ### Optionnel : réseau filaire
 
@@ -28,7 +28,7 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 
 ## Pour 6 postes
 
-- Électronique : **~384-444 €**
+- Électronique : **~360-432 €**
 - Téléphones à acquérir (l'utilisateur en possède déjà un) : brocante,
   Ricardo.ch, eBay — typiquement **15-40 CHF/pièce** en Suisse pour ce
   type de modèle PTT, donc **~75-200 CHF** pour les 4-5 restants.
@@ -44,7 +44,7 @@ fournisseurs réels (Digikey/Mouser/AliExpress/Pihut/Distrelec).
 
 | Poste de dépense | Montant |
 |---|---|
-| Électronique (6 postes) | ~384-444 € |
+| Électronique (6 postes) | ~360-432 € |
 | Téléphones supplémentaires (4-5) | ~75-200 CHF |
 | Serveur central (si à acheter) | ~60-70 € |
-| **Total** | **~520-715 €/CHF** selon options retenues |
+| **Total** | **~495-700 €/CHF** selon options retenues |

@@ -10,7 +10,7 @@
 | Timbres mécaniques (les deux cloches) | **Conservés**, mais leurs bobines d'origine (~90 V AC / 25 Hz) sont débranchées | Trop dangereux/complexe à régénérer en toute sécurité pour 6 postes |
 | — | **Ajout** d'un petit moteur vibrant ou solénoïde qui vient frapper mécaniquement les timbres | Reproduit le vrai son des cloches sans haute tension |
 | Câblage interne (induction, batterie locale) | **Retiré** | Remplacé entièrement par le Raspberry Pi + électronique moderne |
-| — | **Ajout** Raspberry Pi Zero W + carte audio DA7212 (HAT) + alimentation | Cerveau du poste |
+| — | **Ajout** Raspberry Pi Zero W + carte audio IQaudio Codec Zero (HAT) + alimentation | Cerveau du poste |
 
 > **Pourquoi le Zero W (original) plutôt que le Zero 2 W ?** Choix dicté
 > par la disponibilité (le Zero 2 W était en rupture au moment du projet).
@@ -23,33 +23,32 @@
 > — voir `setup.md`. Le reste (brochage GPIO, code du daemon, config
 > baresip/Ansible) est identique aux deux cartes.
 
-## Interface audio : carte DA7212 (HAT I2S, recommandée)
+## Interface audio : carte IQaudio Codec Zero (HAT I2S, recommandée)
 
-Plutôt qu'une carte son USB + ampli séparé, le poste utilise une carte
-**Waveshare DA7212 Audio Board (A)** : elle se branche directement sur
-le connecteur 40 broches (I2S + I2C), sans passer par un port USB.
-Analyse du schéma constructeur (`DA7212-Audio-Board-A-Schematics.pdf`) :
+Le poste utilise une carte **IQaudio Codec Zero** (produit officiel
+Raspberry Pi Ltd, ex-IQaudio) : elle se branche directement sur le
+connecteur 40 broches (I2S + I2C), sans passer par un port USB. Choisie
+plutôt que la Waveshare DA7212 Audio Board (même puce codec DA7212)
+pour simplifier le montage :
 
-- **Entrée micro externe disponible**, séparée des deux micros embarqués
-  sur la carte : le bloc "Headphones-MIC" expose une broche micro dédiée
-  (câblée sur `MIC1_P` du DA7212). Les deux micros embarqués
-  ("digital microphone 1/2") sont eux-mêmes chacun câblés via un petit
-  connecteur 3 broches (OUT/GND/VDD) — probablement une capsule électret
-  montée en module amovible plutôt que soudée à demeure.
-  → **Câblage recommandé** : débrancher un des deux micros embarqués et
-  câbler à sa place, sur ce même connecteur 3 broches, la capsule
-  électret du combiné (fil plus long jusqu'à l'embouchure). Alternative
-  si ce connecteur s'avère inadapté à l'usage : souder directement sur
-  la broche micro du connecteur "Headphones-MIC".
-  ⚠️ À confirmer avec la sérigraphie du PCB réel (wiki Waveshare) avant
-  de souder — le schéma seul ne garantit pas l'emplacement physique exact.
-- **Ampli dédié pour l'écouteur** : la carte a un ampli stéréo (`APA2068`,
-  sortie casque/HP stéréo) **et** un "Mono amplifier" séparé avec son
-  propre connecteur (`SP_N`/`SP_P`) — c'est ce dernier qu'il faut utiliser
-  pour l'unique écouteur mono du combiné.
-- **EEPROM embarqué** → chargement automatique du pilote par Raspberry Pi
-  OS (pas de `dtoverlay` à configurer à la main), et **aucun conflit**
-  avec les GPIO déjà utilisés par le daemon (crochet=17, cadran=27/22,
+- **Prise jack 3.5mm mono dédiée pour le micro externe**, qui désactive
+  automatiquement le micro MEMS embarqué dès qu'on y branche quelque
+  chose. Pas de soudure sur un pad ambigu à identifier sur le PCB : on
+  soude la capsule électret du combiné sur une fiche jack 3.5mm mono
+  (ou directement sur les deux points de la prise si on préfère câbler
+  sans connecteur amovible), et c'est prêt.
+- **Ampli mono intégré, calibré pour un haut-parleur 8 Ω** (1.2 W) —
+  correspond exactement au haut-parleur de remplacement prévu dans le
+  BOM, sans avoir à deviner quel connecteur/canal utiliser.
+- **Format 65×31 mm** — quasiment la taille du Pi Zero lui-même
+  (65×30 mm), bien plus compact que la plupart des HAT audio génériques,
+  donc plus facile à loger dans le boîtier du téléphone.
+- **Support officiel Raspberry Pi** : overlay mainline
+  `dtoverlay=rpi-codeczero` dans Raspberry Pi OS (voir
+  [pinout.xyz/pinout/codec_zero](https://pinout.xyz/pinout/codec_zero)
+  pour le brochage détaillé) — pas de pilote tiers à installer, moins de
+  risque qu'avec un board moins documenté. **Aucun conflit** avec les
+  GPIO déjà utilisés par le daemon (crochet=17, cadran=27/22,
   sonnerie=23 — l'I2S/I2C utilise d'autres broches).
 
 Cette carte **élimine le besoin d'adaptateur/hub OTG** pour l'audio (elle
@@ -60,10 +59,16 @@ dans ce cas, un simple adaptateur micro-USB OTG (USB-A femelle → micro-USB
 mâle) suffit puisque l'unique périphérique USB à brancher est alors
 l'Ethernet, ex. [InLine Adaptateur Micro-USB OTG](https://www.galaxus.ch/fr/s1/product/inline-adaptateur-micro-usb-otg-usb-20-cable-usb-13265450) (~CHF 6-10).
 
-*(Alternative moins chère, si vous préférez éviter le HAT : carte son USB
-+ ampli PAM8403 + capsule électret séparés — nécessite alors l'adaptateur/
-hub OTG décrit ci-dessus pour la carte son. Voir l'historique du dépôt
-pour cette variante.)*
+Sources (~18-23 CHF selon fournisseur) : [The Pi Hut](https://thepihut.com/products/iqaudio-codec-zero),
+[Kiwi Electronics](https://www.kiwi-electronics.com/en/iqaudio-codec-zero-10833) (livre en Suisse).
+Produit plus ancien (retiré chez SparkFun) mais toujours activement
+distribué ailleurs — vérifier le stock au moment de commander.
+
+*(Alternatives envisagées et écartées : Waveshare DA7212 Audio Board —
+même puce mais entrée micro externe ambiguë à localiser sur le PCB sans
+la carte en main, voir `DA7212-Audio-Board-A-Schematics.pdf` conservé
+dans ce dossier pour référence ; carte son USB + ampli PAM8403 séparés —
+demande en plus un adaptateur/hub OTG. Voir l'historique du dépôt.)*
 
 ## Brochage GPIO (Raspberry Pi Zero W)
 
@@ -101,7 +106,7 @@ flowchart LR
 
     subgraph Électronique ajoutée
         Pi["Raspberry Pi\nZero W"]
-        DA["Carte audio DA7212\n(HAT, 40 broches)"]
+        DA["Carte audio\nIQaudio Codec Zero\n(HAT, 40 broches)"]
         Mos["MOSFET"]
         Motor["Moteur/solénoïde\nfrappeur"]
     end
@@ -132,17 +137,13 @@ flowchart LR
 
 ## Points à valider sur le premier prototype avant de dupliquer
 
-1. **Emplacement exact de l'entrée micro externe sur la carte DA7212** —
-   comparer la sérigraphie du PCB reçu avec le schéma (connecteur 3
-   broches d'un des deux micros embarqués, ou broche micro du connecteur
-   "Headphones-MIC") avant de souder quoi que ce soit.
-2. **Impédance de l'écouteur d'origine** au multimètre — décide s'il est
-   réutilisable tel quel derrière l'ampli mono de la carte DA7212 ou
+1. **Impédance de l'écouteur d'origine** au multimètre — décide s'il est
+   réutilisable tel quel derrière l'ampli mono de la carte Codec Zero ou
    s'il faut un haut-parleur de remplacement.
-3. **Force nécessaire pour faire sonner les timbres** de façon audible
+2. **Force nécessaire pour faire sonner les timbres** de façon audible
    sans les endommager — choisir le moteur/solénoïde en conséquence
    (commencer par un petit solénoïde 5V à faible course, ajuster si le
    son est trop faible).
-4. **Espace disponible dans le boîtier** pour loger le Pi + carte DA7212
-   (format HAT, plus grand que le Pi Zero lui-même) + MOSFET sans forcer
-   sur les mécanismes d'origine.
+3. **Espace disponible dans le boîtier** pour loger le Pi + carte Codec
+   Zero + MOSFET sans forcer sur les mécanismes d'origine (a priori
+   confortable vu le format compact 65×31mm de la carte).
