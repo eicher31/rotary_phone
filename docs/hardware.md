@@ -64,6 +64,26 @@ Sources (~18-23 CHF selon fournisseur) : [The Pi Hut](https://thepihut.com/produ
 Produit plus ancien (retiré chez SparkFun) mais toujours activement
 distribué ailleurs — vérifier le stock au moment de commander.
 
+### Connecteurs confirmés sur la carte reçue
+
+![Carte IQaudio Codec Zero reçue, à côté d'un Raspberry Pi Zero](codec-zero-received.jpg)
+
+Carte en main (voir photo ci-dessus) — la sérigraphie confirme :
+
+| Connecteur (sérigraphie sur le PCB) | Fonction | Usage dans ce projet |
+|---|---|---|
+| **Prise jack 3.5mm** (à côté du label "MIC2") | Entrée micro externe mono, désactive le micro MEMS embarqué à l'insertion | **Y souder la capsule électret du combiné** |
+| Bornier à vis vert **"SPKR OUT"** (2 broches) | Sortie ampli mono | **Y câbler l'écouteur/haut-parleur 8 Ω** |
+| Header vertical **"AUX IN"** (3 broches, bord gauche) | Entrée ligne stéréo | Non utilisé |
+| Header vertical **"AUX OUT"** (près de "P2"/"D2") | Sortie ligne stéréo | Non utilisé |
+| Bouton **"SW1"** + LEDs ("D1 PWR", "D2", "D3") | Bouton programmable + indicateurs | Non utilisés, peuvent rester cachés dans le boîtier |
+
+⚠️ Avant de souder : confirmer la polarité/le brochage exact de la prise
+jack (pointe = signal micro, ou l'inverse) avec le manuel IQaudio /
+[pinout.xyz/pinout/codec_zero](https://pinout.xyz/pinout/codec_zero) —
+la sérigraphie confirme l'existence et l'emplacement du connecteur, pas
+le détail des broches internes du jack.
+
 *(Alternatives envisagées et écartées : Waveshare DA7212 Audio Board —
 même puce mais entrée micro externe ambiguë à localiser sur le PCB sans
 la carte en main, voir `DA7212-Audio-Board-A-Schematics.pdf` conservé
@@ -164,6 +184,8 @@ flowchart LR
    sans les endommager — choisir le moteur/solénoïde en conséquence
    (commencer par un petit solénoïde 5V à faible course, ajuster si le
    son est trop faible).
-3. **Espace disponible dans le boîtier** pour loger le Pi + carte Codec
-   Zero + MOSFET sans forcer sur les mécanismes d'origine (a priori
-   confortable vu le format compact 65×31mm de la carte).
+3. ~~Espace disponible dans le boîtier~~ — ✅ carte Codec Zero reçue et
+   comparée physiquement au Pi Zero (voir photo ci-dessus), gabarit
+   confirmé compact.
+4. **Brochage exact de la prise jack micro** (pointe/corps) — à confirmer
+   avec le manuel IQaudio avant de souder la capsule électret.
